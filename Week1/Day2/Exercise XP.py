@@ -8,23 +8,10 @@ friend_fav_numbers = set({6, 4})
 our_fav_numbers = my_fav_numbers.union(friend_fav_numbers)
 print(our_fav_numbers)
 
-#exercise_plus:
-sample_dict = {
-  "name": "Kelly",
-  "age":25,
-  "salary": 8000,
-  "city": "New york"
-}
-keys_to_remove = set({"name", "salary"})
-for key in keys_to_remove:
-    sample_dict.pop(key, None)
-
-print(sample_dict)
-
-#exercise3:
+#exercise2:
 #False
 
-#exercise4:
+#exercise3:
 basket = ["Banana", "Apples", "Oranges", "Blueberries"]
 basket.remove("Banana")
 print(basket)
@@ -32,7 +19,7 @@ basket.remove("Blueberries")
 print(basket)
 basket.append("Kiwi")
 print(basket)
-basket.append("Apples")
+basket.insert(0,"Apples")
 print(basket)
 count_apples = basket.count("Apples")
 print(count_apples)
@@ -41,7 +28,7 @@ print(basket)
 
 #exercise4:
 #An integer (more commonly called an int) is a number without a decimal point. A float is a floating-point number, which means it is a number that has a decimal place.
-first = float(1.5)
+first = 1.5
 my_list = [first]
 while first<=5:
     first = first + 0.5
@@ -50,11 +37,12 @@ print(my_list)
 
 #exercise5:
 numbers = range(1,21)
-for number in numbers:
-    print(number)
-for number in numbers:
-    if number % 2 == 0:
-        print(number)
+for i in numbers:
+    print(i)
+
+for index, value in enumerate(range(1, 21)):
+    if index % 2 == 0:
+        print(index)
 
 #exercise6:
 my_name = "Evgenia"
@@ -65,6 +53,17 @@ while True:
         break
     else:
         print(user_name)
+#v2_new
+my_name = "Evgenia"
+user_name = ""
+
+while user_name != my_name:
+    user_name = input("Please enter your name: ")
+    if user_name != my_name:
+        print(user_name)
+    else:
+        print("It's true!")
+
 #exercise7:
 fruits = input('Please enter your favorite fruits, you need to separate the fruits with a single space, eg. "apple mango cherry": ')
 favorite_fruits = fruits.split()
@@ -75,25 +74,38 @@ while True:
         break
     else:
         print("You chose a new fruit. I hope you enjoy!")
+
+#v2_new
+fruits = input('Please enter your favorite fruits, separated by a single space, e.g., "apple mango cherry": ')
+favorite_fruits = fruits.split()
+ask_fruit = ""
+while ask_fruit not in favorite_fruits:
+    ask_fruit = input('Please enter one fruit: ')
+    if ask_fruit in favorite_fruits:
+        print("Enjoy your favorite fruit!")
+    else:
+        print("You chose a new fruit. I hope you enjoy!")
+
 #exercise8:
-tops = [1,2,3,4]
-price = float(10)
+tops = ['cheese', 'veggies', 'sauces', 'pesto']
+price = 10.0
 toppings_list = []
+
 while True:
-    ask = input('Please enter the number of extra tops for pizza using this list: Cheese 1, Veggies 2, Sauces 3, Pesto 4 or type done:')
+    ask = input('Please enter the extra topping for pizza using this list: Cheese, Veggies, Sauces, Pesto or type "done": ')
 
     if ask.lower() == "done":
         print("Thank you for your order!")
         break
 
-    if int(ask) in tops:
-        toppings_list.append(int(ask))
-        print('We have ', ask, 'choose another one')
-
+    if ask in tops:
+        toppings_list.append(ask)
+        print('We have', ask, ', choose another one')
     else:
-        print('Invalid')
+        print('Invalid topping, please choose from the list.')
+
 your_price = price + 2.5 * len(toppings_list)
-print("total price is: ", your_price)
+print("Your order:", toppings_list, "Total price is:", your_price)
 
 #exercise9:
 little_kids = range(3)
@@ -130,13 +142,13 @@ while "Pastrami sandwich" in sandwich_orders:
     sandwich_orders.remove("Pastrami sandwich")
 print(sandwich_orders)
 
-sandwich_orders = ["Tuna sandwich", "Pastrami sandwich", "Avocado sandwich", "Pastrami sandwich", "Egg sandwich", "Chicken sandwich", "Pastrami sandwich"]
-while "Pastrami sandwich" in sandwich_orders:
-    sandwich_orders.remove("Pastrami sandwich")
-print(sandwich_orders)
 finished_sandwiches = []
-for sandwiches in sandwich_orders:
-    finished_sandwiches.append(sandwiches) and sandwich_orders.remove(sandwiches)
-    print(finished_sandwiches)
-    print("I made your", sandwiches)
+for sandwich in sandwich_orders:
+    finished_sandwiches.append(sandwich)
+    print("I made your", sandwich)
+
+print("\nFinished sandwiches:")
+for sandwich in finished_sandwiches:
+    print(sandwich)
+
 
