@@ -111,10 +111,6 @@ for key, value in zip(users,values):
 print(disney_users_A)
 
 #second_way
-disney_users_A = {}
-for i, user in enumerate(users):
-    disney_users_A[user] = i
-print(disney_users_A)
 #Use a for loop to recreate the 1st result {0: "Mickey",1: "Minnie", 2: "Donald", 3: "Ariel", 4: "Pluto"}
 disney_users_B = {}
 for i, user in enumerate(users):
