@@ -7,7 +7,7 @@ class hackathon_GUI:
     screen_ratio_width = 3. / 4
     screen_ratio_height = 3. / 4
     text_initial_CV_width = 30
-    text_initial_CV_height = 5
+    text_initial_CV_height = 9
 
     def __init__(self, root):
         ##########################################
@@ -71,10 +71,11 @@ class hackathon_GUI:
         self.database_frame.grid(row=1, column=0, padx=10, pady=10)
 
         #########################################
-        # company name label creation of company tk.Text object
+
+        # Creating company name label creation of company tk.Text object
         self.label_company_name = tk.Label(self.database_frame, text="Company name")
         self.label_company_name.grid(row=0, column=0, padx=10, pady=10)
-        # company name tk.Text object
+        # Creating company name tk.Text object
         self.text_company_name= tk.Text(self.database_frame, width=self.text_initial_CV_width,
                                        height=self.text_initial_CV_height)
         self.text_company_name.grid(row=1, column=0, padx=10, pady=10)
@@ -95,7 +96,36 @@ class hackathon_GUI:
         # Creating "Submit to database button"
         self.button_database = tk.Button(self.database_frame, text="Submit to Database")
         self.button_database.grid(row=1, column=3, padx=10, pady=10)
-#
+
+        ##########################################
+        # Creating  Feedback Frame
+        ##########################################
+        self.feedback_frame = tk.Frame(self.root)
+        self.feedback_frame.grid(row=2, column=0, padx=10, pady=10)
+
+        #########################################
+
+        # Creating feedback Label for feedback tk.Text
+        self.label_feedback = tk.Label(self.feedback_frame, text="Feedback")
+        self.label_feedback.grid(row=0, column=0, padx=10, pady=10)
+        # Creating feedback tk.Text object
+        self.text_feedback = tk.Text(self.feedback_frame, width=self.text_initial_CV_width,
+                                       height=self.text_initial_CV_height)
+        self.text_feedback.grid(row=1, column=0, padx=10, pady=10)
+
+        # Creating "Push feedback" button
+        self.button_feedback = tk.Button(self.feedback_frame, text="Push feedback")
+        self.button_feedback.grid(row=1, column=1, padx=10, pady=10)
+
+        # Creating "Show CV" button
+        self.button_show_cv = tk.Button(self.feedback_frame, text="Show CV")
+        self.button_show_cv.grid(row=1, column=2, padx=10, pady=10)
+
+        # Creating "Show database" button
+        self.button_show_database = tk.Button(self.feedback_frame, text="Show DATABASE")
+        self.button_show_database.grid(row=1, column=3, padx=10, pady=10)
+
+
 
 
 
