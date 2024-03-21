@@ -91,11 +91,11 @@ class hackathon_GUI:
         # Creating Contact Person tk.Text object
         self.text_contact_person = tk.Text(self.database_frame, width=self.text_initial_CV_width,
                                             height=self.text_initial_CV_height)
-        # self.text_contact_person.grid(row=1, column=2, padx=10, pady=10, sticky="nsew")
-        # # Creating "Submit to database button"
-        # self.button_database = tk.Button(self.database_frame, text="Submit to Database")
-        # self.button_database.grid(row=1, column=3, padx=10, pady=10)
-
+        self.text_contact_person.grid(row=1, column=2, padx=10, pady=10, sticky="nsew")
+        # Creating "Submit to database button"
+        self.button_database = tk.Button(self.database_frame, text="Submit to Database")
+        self.button_database.grid(row=1, column=3, padx=10, pady=10)
+#
 
 
 
