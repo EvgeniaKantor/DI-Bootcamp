@@ -140,7 +140,6 @@ class hackathon_GUI:
         # Creating txt file
         modified_cv_txt.write(self.modified_cv)
         modified_cv_txt.close()
-        #
 
 
 

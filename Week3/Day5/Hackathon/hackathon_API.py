@@ -1,8 +1,7 @@
 import os
 from openai import OpenAI
 
-client = OpenAI(
-    api_key=os.environ['OPENAI_API_KEY'])
+#put here info about the key#
 
 
 def generate_CV(cv_template_text, job_description, job_title):
