@@ -33,4 +33,3 @@ def generate_CV(cv_template_text, job_description, job_title):
     #modified_cv = chat_gpt_response.choices[0].text.strip()
     modified_cv = chat_gpt_response.choices[0].message.content
     return modified_cv
-#
