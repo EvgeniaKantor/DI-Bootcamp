@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+from hackathon_API import generate_CV
 
 class hackathon_GUI:
     root_title = "JOB searcher volunteer"
@@ -10,8 +11,9 @@ class hackathon_GUI:
     text_initial_CV_height = 9
 
     def __init__(self, root):
+        self.modified_cv = ''
         ##########################################
-        ##Basic parameters of the main window
+        # Basic parameters of the main window
         ##########################################
         self.root = root
         self.root.title(self.root_title)
@@ -60,7 +62,7 @@ class hackathon_GUI:
                                             height=self.text_initial_CV_height)
         self.text_job_description.grid(row=1, column=2, padx=10, pady=10, sticky="nsew")
         # Creating CV creation Button
-        self.button_CV = tk.Button(self.CV_creator_frame, text="Create CV")
+        self.button_CV = tk.Button(self.CV_creator_frame, text="Create CV", command=self.button_CV_command)
         self.button_CV.grid(row=1, column=3, padx=10, pady=10)
 
 
@@ -126,6 +128,18 @@ class hackathon_GUI:
         self.button_show_database.grid(row=1, column=3, padx=10, pady=10)
 
 
+    #Definition of Button CV command. It will be bound to button
+    def button_CV_command(self):
+        # texts extraction from tk.Text widgets
+        cv_template_text = self.text_initial_CV.get("1.0", "end-1c")
+        job_description = self.text_job_description.get("1.0", "end-1c")
+        job_title = self.text_job_title.get("1.0", "end-1c")
+        # invoking API function
+        self.modified_cv = generate_CV(cv_template_text, job_description, job_title)
+        modified_cv_txt = open('modified_cv.txt', "w")
+        # Creating txt file
+        modified_cv_txt.write(self.modified_cv)
+        modified_cv_txt.close()
 
 
 
