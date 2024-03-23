@@ -1,7 +1,7 @@
 import os
 from openai import OpenAI
 
-#put here info about the key#
+client = OpenAI(api_key=os.environ['OPENAI_API_KEY'])
 
 
 def generate_CV(cv_template_text, job_description, job_title):
@@ -31,3 +31,21 @@ def generate_CV(cv_template_text, job_description, job_title):
     modified_cv = chat_gpt_response.choices[0].message.content
     return modified_cv
 
+def keywords_description(job_description):
+    prompt_for_role_system = ("You will be provided with a block of text, and your "
+                              "task is to make a short summary")
+    prompt_for_role_user = (f"The text is job description: {job_description}"
+                            f"the summary should not be more that 20 words")
+
+    chat_gpt_response = client.chat.completions.create(
+                        model="gpt-3.5-turbo",
+                        messages=[
+                         {"role": "system", "content": prompt_for_role_system},
+                         {"role": "user", "content": prompt_for_role_user}
+                        ]
+                        )
+
+    # Extract modified CV from completion response
+    # modified_cv = chat_gpt_response.choices[0].text.strip()
+    modified_description = chat_gpt_response.choices[0].message.content
+    return modified_description
