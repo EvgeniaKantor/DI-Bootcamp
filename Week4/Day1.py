@@ -27,4 +27,3 @@ print(df[df['Price'] > 10])
 
 print("Group the books by Author and sum up the Copies Sold:")
 print(df.groupby('Author')['Copies Sold'].sum())
-#
