@@ -1,0 +1,53 @@
+-- #1
+-- SELECT DISTINCT name
+-- FROM language
+-- #2
+-- SELECT film.title, film.description, language.name
+-- FROM film
+-- INNER JOIN language
+-- ON film.language_id = language.language_id;
+-- #3
+-- SELECT film.title, film.description, language.name
+-- FROM film
+-- FULL OUTER JOIN language
+-- ON film.language_id = language.language_id;
+--#4
+-- CREATE TABLE new_film (
+--   id SERIAL PRIMARY KEY,
+--   name VARCHAR(100));
+-- INSERT INTO new_film (name)
+-- VALUES ('Titanik'),
+-- ('The Godfather'),
+-- ('Forrest Gump');
+--#5
+-- CREATE TABLE customer_review (
+--     review_id SERIAL PRIMARY KEY,
+--     film_id INT NOT NULL,
+--     language_id INT NOT NULL,
+--     title VARCHAR(200) NOT NULL,
+--     score INT NOT NULL CHECK (score > 0 AND score <= 10),
+--     review_text TEXT,
+--     last_update TIMESTAMP,
+    
+--     CONSTRAINT fk_language_id FOREIGN KEY (language_id) REFERENCES language (language_id),
+--     CONSTRAINT fk_film_id FOREIGN KEY (film_id) REFERENCES new_film (id) ON DELETE CASCADE
+-- );
+-- DROP TABLE IF EXISTS customer_review;
+-- CREATE TABLE customer_review (
+--     review_id SERIAL PRIMARY KEY,
+--     film_id INT NOT NULL,
+--     language_id INT NOT NULL,
+--     title VARCHAR(200) NOT NULL,
+--     score INT NOT NULL CHECK (score > 0 AND score <= 10),
+--     review_text TEXT,
+--     last_update TIMESTAMP DEFAULT current_timestamp,
+    
+--     CONSTRAINT fk_language_id FOREIGN KEY (language_id) REFERENCES language (language_id),
+--     CONSTRAINT fk_film_id FOREIGN KEY (film_id) REFERENCES new_film (id) ON DELETE CASCADE
+-- );
+-- INSERT INTO customer_review (film_id, language_id, title, score, review_text, last_update) 
+-- VALUES 
+-- (1, 1, 'Amazing Film', 9, 'This movie blew me away! Great acting, captivating story.', NOW()),
+-- (2, 2, 'Disappointing', 5, 'Expected more from this film. It fell short of expectations.', NOW()) RETURNING *;
+-- DELETE FROM new_film WHERE (name = 'Titanik') RETURNING *; 
+-- SELECT *FROM new_film;

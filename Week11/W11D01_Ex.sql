@@ -1,0 +1,184 @@
+-- SELECT m.medal_name,
+-- 	AVG((SELECT gc.age
+-- 		FROM olympics.games_competitor gc
+-- 		WHERE gc.id = ce.competitor_id
+-- 		 AND gc.age > 0)) AS avg_age
+-- FROM olympics.medal m
+-- JOIN olympics.competitor_event ce ON m.id = ce.medal_id
+-- WHERE EXISTS (SELECT 1
+-- 			 FROM olympics.games_competitor gc 
+-- 			 WHERE gc.id = ce.competitor_id 
+-- 			 AND gc.age > 0)
+-- GROUP BY m.medal_name;
+-- 
+-- PART2
+-- 
+-- SELECT n.region_name, COUNT(DISTINCT gc.person_id) AS unique_competitors
+-- FROM olympics.noc_region n
+-- JOIN olympics.person_region pr ON n.id = pr.region_id
+-- JOIN olympics.games_competitor gc ON pr.person_id = gc.person_id
+-- WHERE gc.person_id IN (
+--     SELECT ce.competitor_id
+--     FROM olympics.competitor_event ce
+--     GROUP BY ce.competitor_id
+--     HAVING COUNT(DISTINCT ce.event_id) > 3
+-- )
+-- GROUP BY n.region_name
+-- ORDER BY unique_competitors DESC
+-- LIMIT 5;
+
+
+-- CREATE TEMPORARY TABLE temp_medal_counts (
+--     person_id INT,
+--     total_medals INT
+-- );
+-- INSERT INTO temp_medal_counts (person_id, total_medals)
+-- SELECT
+--     pr.id,
+--     COUNT(*) AS total_medals
+-- FROM
+--     olympics.competitor_event ce
+-- JOIN
+-- 	olympics.games_competitor gc ON ce.competitor_id = gc.id
+-- JOIN
+-- 	olympics.person pr ON gc.person_id = pr.id
+-- WHERE
+--     ce.medal_id IN ('1', '2', '3')
+-- GROUP BY
+--     pr.id
+-- HAVING
+--     COUNT(*) > 2;
+-- -- Step 3: Select the data from the temporary table
+-- SELECT
+--     total_medals,
+-- 	full_name
+-- FROM
+--     temp_medal_counts tmc
+-- JOIN
+-- 	olympics.person pr ON tmc.person_id = pr.id
+-- ORDER BY total_medals DESC
+
+
+-- CREATE TEMP TABLE TempMedals AS
+-- SELECT gc.person_id, p.full_name, COUNT(ce.medal_id) AS total_medals
+-- FROM olympics.games_competitor gc
+-- JOIN olympics.person p ON gc.person_id = p.id
+-- JOIN olympics.competitor_event ce ON gc.id = ce.competitor_id
+-- WHERE ce.medal_id IN ('1', '2', '3')
+-- GROUP BY gc.person_id, p.full_name;
+-- SELECT * FROM TempMedals
+-- WHERE total_medals > 2;
+------------------------------------------------
+-- CREATE TEMPORARY TABLE TempCompetitors AS
+-- SELECT
+--     gc.person_id,
+--     p.full_name,
+--     ce.medal_id
+-- FROM olympics.games_competitor gc
+-- JOIN olympics.person p ON gc.person_id = p.id
+-- JOIN olympics.competitor_event ce ON gc.id = ce.competitor_id;
+-- DELETE FROM TempCompetitors
+-- WHERE person_id IN (
+--     SELECT person_id
+--     FROM TempCompetitors
+--     WHERE medal_id = 4
+-- );
+-- SELECT * FROM TempCompetitors
+------------------------------------------------
+-- Ex 2
+-- Task1
+-- CREATE TEMPORARY TABLE TempPersonRegion AS
+-- SELECT person_id, MIN(region_id) AS region_id
+-- FROM olympics.person_region
+-- GROUP BY person_id;
+
+-- UPDATE olympics.person p
+-- SET height = (
+--     SELECT avg_height
+--     FROM (
+--         SELECT AVG(p2.height) AS avg_height
+--         FROM olympics.person p2
+--         JOIN TempPersonRegion tpr ON p2.id = tpr.person_id
+--         JOIN (
+--             SELECT pr.region_id, AVG(p.height) AS avg_height
+--             FROM olympics.person p
+--             JOIN olympics.person_region pr ON p.id = pr.person_id
+--             WHERE p.height > 0
+--             GROUP BY pr.region_id
+--         ) AS region_avg ON tpr.region_id = region_avg.region_id
+--         WHERE p2.id = p.id
+--     ) AS subquery
+-- )
+-- WHERE height = 0;
+
+-- CREATE TEMPORARY TABLE CompetitorsMultipleEvents AS
+-- SELECT ce.competitor_id, COUNT(DISTINCT ce.event_id) AS total_events_participated
+-- FROM olympics.competitor_event ce
+-- WHERE ce.competitor_id IN (
+--     SELECT competitor_id
+--     FROM olympics.competitor_event
+--     GROUP BY competitor_id
+--     HAVING COUNT(DISTINCT event_id) > 1
+-- )
+-- GROUP BY ce.competitor_id;
+-- SELECT * FROM CompetitorsMultipleEvents
+
+-- SELECT region_name, avg_medals_per_competitor
+-- FROM (
+--     SELECT 
+--         n.region_name,
+--         AVG(total_medals) AS avg_medals_per_competitor,
+--         (SELECT AVG(total_medals) FROM (
+--             SELECT COUNT(*) AS total_medals
+--             FROM olympics.competitor_event ce
+--             JOIN olympics.games_competitor gc ON ce.competitor_id = gc.id
+--             GROUP BY gc.person_id
+--         ) AS subquery) AS overall_avg_medals
+--     FROM 
+--         olympics.noc_region n
+--     JOIN 
+--         olympics.person_region pr ON n.id = pr.region_id
+--     JOIN 
+--         (
+--             SELECT 
+--                 gc.person_id,
+--                 COUNT(*) AS total_medals
+--             FROM 
+--                 olympics.games_competitor gc
+--             JOIN 
+--                 olympics.competitor_event ce ON gc.id = ce.competitor_id
+--             WHERE 
+--                 ce.medal_id IS NOT NULL
+--             GROUP BY 
+--                 gc.person_id
+--         ) AS medals_per_competitor ON pr.person_id = medals_per_competitor.person_id
+--     GROUP BY 
+--         n.region_name
+-- ) AS region_medals_avg
+-- WHERE 
+--     avg_medals_per_competitor > overall_avg_medals
+-- ORDER BY 
+--     avg_medals_per_competitor DESC;
+
+
+-- CREATE TEMPORARY TABLE CompetitorsParticipation AS
+-- SELECT
+--     p1.id AS person_id,
+--     p1.full_name,
+--     COUNT(DISTINCT CASE WHEN g.season = 'Summer' THEN g.id END) AS summer_participation,
+--     COUNT(DISTINCT CASE WHEN g.season = 'Winter' THEN g.id END) AS winter_participation
+-- FROM
+--     olympics.games_competitor gc
+-- JOIN
+--     olympics.games g ON gc.games_id = g.id
+-- JOIN
+--     olympics.person p1 ON gc.person_id = p1.id
+-- GROUP BY
+--     p1.id, p1.full_name;
+
+-- SELECT DISTINCT person_id, full_name
+-- FROM CompetitorsParticipation
+-- WHERE summer_participation > 0 AND winter_participation > 0;
+
+
+

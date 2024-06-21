@@ -1,0 +1,32 @@
+-- create table students (
+-- student_id serial primary key,
+-- last_name varchar (100) not null,
+-- first_name varchar (50) not null,
+-- birth_date date not null)
+-- insert into students (first_name, last_name, birth_date)
+-- values ('Marc', 'Benichou', '02/11/1998'),
+-- ('Yoan', 'Cohen', '03/12/2010'),
+-- ('Lea', 'Benichou', '27/07/1987'),
+-- ('Amelia', 'Dux', '07/04/1996'),
+-- ('David', 'Grez', '14/06/2003'),
+-- ('Omer', 'Simpson', '03/10/1980')
+-- 
+-- insert into students (first_name, last_name, birth_date)
+-- values ('Evgenia', 'Kantor', '08/11/1984')
+-- select * from students
+-- select last_name from students
+-- select first_name from students
+-- select first_name, last_name from students where student_id = 2
+-- select first_name, last_name from students where last_name = 'Benichou' or first_name = 'Marc'
+-- select first_name, last_name from students where first_name ilike '%a%'
+-- select first_name, last_name from students where first_name ilike 'a%'
+-- select first_name, last_name from students where first_name ilike '%a'
+-- select first_name, last_name from students where right(first_name, 2) like 'a%'
+-- select first_name, last_name from students where student_id = 1 and student_id = 3
+-- select * from students where birth_date >= '1/01/2000'
+-- select first_name, last_name, birth_date from students order by last_name ASC limit 4
+-- select first_name, last_name, birth_date from students order by birth_date DESC limit 1
+-- select * 
+-- from students 
+-- where birth_date = (select max(birth_date) from students)
+-- select first_name, last_name, birth_date from students offset 2
